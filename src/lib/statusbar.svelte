@@ -20,12 +20,9 @@
       {/if}
     </div>
     <div>
-      Version:
       {#if $projectState}
         {@const projectState = $projectState}
-        {projectState.version === 'undefined' ? 'dev' : projectState.version}
-      {:else}
-        dev
+        Version: {projectState.version === 'undefined' ? 'dev' : projectState.version}
       {/if}
     </div>
   </div>

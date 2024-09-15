@@ -23,7 +23,7 @@
     const projectFileName = await basename(filePath);
     const projectWorkingDirectory = filePath.substring(0, filePath.length - projectFileName.length - 1);
 
-    await Command.create('spawn-process-compose', ['-t=false', '-f', projectFileName, '-p', port], {
+    await Command.create('spawn-process-compose', ['-t=false', '-f', projectFileName, '-p', port, '--keep-project'], {
       cwd: projectWorkingDirectory,
     }).spawn();
     dispatch('start');
