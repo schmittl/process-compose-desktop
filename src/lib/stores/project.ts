@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import { allProcesses, selectedProcess } from './process';
-import { Store } from '@tauri-apps/plugin-store';
+import { createStore, Store } from '@tauri-apps/plugin-store';
+import { browser } from '$app/environment';
 
 export type ProjectTab = 'processes' | 'configuration';
 
@@ -17,7 +18,14 @@ export function resetProject() {
   allProcesses.set([]);
 }
 
-export const rootStore = new Store('store.projects');
+export let rootStore: Store;
+
+export async function createRootStore(): Promise<Store> {
+  if (browser) {
+    rootStore = await createStore('store.projects');
+  }
+  return rootStore;
+}
 
 export interface ProjectConfiguration {
   name: string;
