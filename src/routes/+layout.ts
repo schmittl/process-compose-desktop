@@ -8,7 +8,7 @@ export const ssr = false;
 export const load: PageLoad = async () => {
   const rootStore = await createRootStore();
   if (!rootStore) {
-    return {};
+    return { projectConfigurations: [] };
   }
   const projectConfigurations = await rootStore.values<ProjectConfiguration>();
   projectConfigurations.sort((a, b) => a.name.localeCompare(b.name));
