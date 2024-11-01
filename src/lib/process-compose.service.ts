@@ -1,7 +1,7 @@
 import type { LoadProcessResponse, Process } from './process';
 import { fetch } from '@tauri-apps/plugin-http';
 import WebSocket from '@tauri-apps/plugin-websocket';
-import type { ProjectConfiguration } from './stores/project';
+import type { ProjectConfiguration } from './stores/project.svelte';
 
 export class ProcessComposeService {
   private readonly baseUrl: string;

@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
   import ProjectView from '$lib/project-view.svelte';
-  import { projectConfiguration } from '$lib/stores/project';
+  import { projectConfiguration } from '$lib/stores/project.svelte';
   import type { PageData } from './$types';
 
   interface Props {
@@ -11,7 +9,7 @@
 
   let { data }: Props = $props();
 
-  run(() => {
+  $effect(() => {
     if (data.projectConfiguration) {
       $projectConfiguration = data.projectConfiguration;
     }

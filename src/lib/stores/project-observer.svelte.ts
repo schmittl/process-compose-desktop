@@ -1,6 +1,6 @@
 import type { ProcessComposeService } from '$lib/process-compose.service';
 import { processStore } from './process.svelte';
-import { projectAlive, projectState } from './project';
+import { projectStore } from './project.svelte';
 
 export class ProjectObserver {
   private timeoutId?: number;
@@ -31,11 +31,11 @@ export class ProjectObserver {
 
     try {
       const alive = await this.processComposeService.isProjectAlive(this.abortSignal);
-      this.throwIfAborted(() => projectAlive.set(alive));
+      this.throwIfAborted(() => (projectStore.projectAlive = alive));
 
       if (alive) {
         const state = await this.processComposeService.getProjectState(this.abortSignal);
-        this.throwIfAborted(() => projectState.set(state));
+        this.throwIfAborted(() => (projectStore.projectState = state));
 
         const processes = await this.processComposeService.loadProcesses(this.abortSignal);
         this.throwIfAborted(() => (processStore.allProcesses = processes));

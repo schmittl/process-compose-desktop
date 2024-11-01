@@ -1,13 +1,13 @@
 <script lang="ts">
   import ProjectActions from './project-actions.svelte';
-  import { projectConfiguration, projectTab, resetProject } from './stores/project';
+  import { projectConfiguration, projectStore, resetProject } from './stores/project.svelte';
   import ProcessView from './process-view.svelte';
   import ConfigurationView from './configuration-view.svelte';
   import { onMount, setContext } from 'svelte';
   import { ProcessComposeService } from './process-compose.service';
   import { writable } from 'svelte/store';
   import { onNavigate } from '$app/navigation';
-  import { ProjectObserver } from './stores/project-observer';
+  import { ProjectObserver } from './stores/project-observer.svelte';
 
   let projectObserver: ProjectObserver | undefined;
 
@@ -41,10 +41,10 @@
 
 <div class="flex flex-col h-full overflow-hidden">
   <ProjectActions on:start={onProjectStart} on:stop={onProjectStop}></ProjectActions>
-  <div class={$projectTab === 'processes' ? 'contents' : 'hidden'}>
+  <div class={projectStore.projectTab === 'processes' ? 'contents' : 'hidden'}>
     <ProcessView></ProcessView>
   </div>
-  <div class={$projectTab === 'configuration' ? 'contents' : 'hidden'}>
+  <div class={projectStore.projectTab === 'configuration' ? 'contents' : 'hidden'}>
     <ConfigurationView></ConfigurationView>
   </div>
 </div>

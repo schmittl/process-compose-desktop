@@ -5,15 +5,25 @@ import { browser } from '$app/environment';
 
 export type ProjectTab = 'processes' | 'configuration';
 
-export const projectState = writable<any>(undefined);
-export const projectAlive = writable<boolean>(false);
-export const projectTab = writable<ProjectTab>('processes');
 export const projectConfiguration = writable<ProjectConfiguration | undefined>(undefined);
-export const allProjectConfigurations = writable<ProjectConfiguration[]>([]);
 
-export function resetProject() {
-  projectState.set(undefined);
-  projectAlive.set(false);
+export class ProjectStore {
+  projectState = $state<any>(undefined);
+  projectAlive = $state<boolean>(false);
+  projectTab = $state<ProjectTab>('processes');
+  projectConfiguration = $state<ProjectConfiguration | undefined>(undefined);
+  allProjectConfigurations = $state<ProjectConfiguration[]>([]);
+
+  reset(): void {
+    this.projectState = undefined;
+    this.projectAlive = false;
+  }
+}
+
+export const projectStore = new ProjectStore();
+
+export function resetProject(): void {
+  projectStore.reset();
   processStore.reset();
 }
 

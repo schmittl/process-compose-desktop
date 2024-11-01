@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { projectAlive, projectConfiguration, projectState } from './stores/project';
+  import { projectStore, projectConfiguration } from './stores/project.svelte';
 </script>
 
 {#if $projectConfiguration}
@@ -7,21 +7,21 @@
     <div class="flex flex-wrap gap-x-5 h-full">
       <span>
         Status:
-        {#if $projectAlive}
+        {#if projectStore.projectAlive}
           Connected
         {:else}
           Not connected
         {/if}</span
       >
-      {#if $projectState}
-        {@const state = $projectState}
+      {#if projectStore.projectState}
+        {@const state = projectStore.projectState}
         <span>Hostname: {state.hostName}</span>
         <span>Processes: {state.runningProcessNum}/{state.processNum}</span>
       {/if}
     </div>
     <div>
-      {#if $projectState}
-        {@const state = $projectState}
+      {#if projectStore.projectState}
+        {@const state = projectStore.projectState}
         Version: {state.version === 'undefined' ? 'dev' : state.version}
       {/if}
     </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ProcessComposeService } from './process-compose.service';
   import { Command } from '@tauri-apps/plugin-shell';
-  import { projectAlive, projectConfiguration as projectConfigurationStore } from './stores/project';
+  import { projectStore, projectConfiguration as projectConfigurationStore } from './stores/project.svelte';
   import { createEventDispatcher, getContext } from 'svelte';
   import { basename } from '@tauri-apps/api/path';
   import { get, type Writable } from 'svelte/store';
@@ -43,7 +43,7 @@
   </div>
   <div class="flex-1 flex justify-center"><ProjectTabs></ProjectTabs></div>
   <div class="flex-1 flex justify-end">
-    {#if $projectAlive}
+    {#if projectStore.projectAlive}
       <button class="btn btn-ghost btn-sm w-28" on:click={() => onStopProject()}>
         <span class="iconify mdi--stop w-6 h-6"></span>
         Stop</button

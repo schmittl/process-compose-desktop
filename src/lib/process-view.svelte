@@ -2,10 +2,10 @@
   import ProcessTable from './process-table.svelte';
   import { processStore } from './stores/process.svelte';
   import ProcessLogs from './process-logs.svelte';
-  import { projectAlive } from './stores/project';
+  import { projectStore } from './stores/project.svelte';
 </script>
 
-{#if $projectAlive}
+{#if projectStore.projectAlive}
   <div class="max-h-60 mt-4 overflow-auto">
     <ProcessTable></ProcessTable>
   </div>

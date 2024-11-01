@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
   import Navbar from '$lib/navbar.svelte';
   import Statusbar from '$lib/statusbar.svelte';
-  import { allProjectConfigurations } from '$lib/stores/project';
+  import { projectStore } from '$lib/stores/project.svelte';
   import type { PageData } from './$types';
 
   interface Props {
@@ -13,8 +11,8 @@
 
   let { data, children }: Props = $props();
 
-  run(() => {
-    $allProjectConfigurations = data.projectConfigurations;
+  $effect(() => {
+    projectStore.allProjectConfigurations = data.projectConfigurations;
   });
 </script>
 

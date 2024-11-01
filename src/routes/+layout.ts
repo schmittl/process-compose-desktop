@@ -1,8 +1,8 @@
 import '../app.css';
 import type { PageLoad } from './$types';
-import { createRootStore, type ProjectConfiguration } from '$lib/stores/project';
+import { createRootStore, type ProjectConfiguration } from '$lib/stores/project.svelte';
 
-export const prerender = true;
+export const prerender = false;
 export const ssr = false;
 
 export const load: PageLoad = async () => {

@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
   import { goto } from '$app/navigation';
   import type { PageData } from './$types';
 
@@ -10,7 +8,6 @@
 
   let { data }: Props = $props();
 
-
   async function gotoNewProject(): Promise<void> {
     await goto('/new', { replaceState: true });
   }
@@ -18,7 +15,8 @@
   async function gotoProject(projectName: string): Promise<void> {
     await goto(`/projects/${projectName}`, { replaceState: true });
   }
-  run(() => {
+
+  $effect(() => {
     if (data.projectConfigurations.length === 0) {
       gotoNewProject();
     } else {

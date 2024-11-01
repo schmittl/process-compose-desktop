@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { projectTab } from './stores/project';
+  import { projectStore } from './stores/project.svelte';
 </script>
 
 <div role="tablist" class="tabs tabs-boxed tabs-sm">
@@ -7,14 +7,14 @@
     href={'#'}
     role="tab"
     class="tab w-32"
-    class:tab-active={$projectTab === 'processes'}
-    onclick={() => ($projectTab = 'processes')}>Processes</a
+    class:tab-active={projectStore.projectTab === 'processes'}
+    onclick={() => (projectStore.projectTab = 'processes')}>Processes</a
   >
   <a
     href={'#'}
     role="tab"
     class="tab w-32"
-    class:tab-active={$projectTab === 'configuration'}
-    onclick={() => ($projectTab = 'configuration')}>Configuration</a
+    class:tab-active={projectStore.projectTab === 'configuration'}
+    onclick={() => (projectStore.projectTab = 'configuration')}>Configuration</a
   >
 </div>

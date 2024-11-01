@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type ProjectConfiguration } from './stores/project';
+  import { type ProjectConfiguration } from './stores/project.svelte';
   import { page } from '$app/stores';
 
   interface Props {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import ProjectMenu from './project-menu.svelte';
-  import { type ProjectConfiguration } from './stores/project';
+  import { type ProjectConfiguration } from './stores/project.svelte';
 
   interface Props {
     projectConfigurations?: ProjectConfiguration[];

@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { run } from 'svelte/legacy';
-
   import { open } from '@tauri-apps/plugin-dialog';
-  import { rootStore, type ProjectConfiguration } from './stores/project';
+  import { rootStore, type ProjectConfiguration } from './stores/project.svelte';
   import { goto } from '$app/navigation';
 
   let selectedFilePath: string | undefined = $state();
@@ -10,13 +8,10 @@
   let invalidProjectName = $state(false);
   let invalidFilePath = $state(false);
 
-  run(() => {
+  $effect(() => {
     if (selectedProjectName) {
       invalidProjectName = false;
     }
-  });
-
-  run(() => {
     if (selectedFilePath) {
       invalidFilePath = false;
     }
@@ -33,10 +28,11 @@
   async function onCreateProject(): Promise<void> {
     if (!selectedProjectName) {
       invalidProjectName = true;
-      return;
     }
     if (!selectedFilePath) {
       invalidFilePath = true;
+    }
+    if (!selectedProjectName || !selectedFilePath) {
       return;
     }
 

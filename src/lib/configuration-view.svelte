@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { projectAlive, projectConfiguration, rootStore } from './stores/project';
+  import { projectStore, projectConfiguration, rootStore } from './stores/project.svelte';
 
   let selectedPort: string | undefined = $state();
   let invalidPort = $state(false);
@@ -67,7 +67,7 @@
     placeholder="Port number"
     class="input input-sm input-bordered"
     class:input-error={invalidPort}
-    disabled={$projectAlive}
+    disabled={projectStore.projectAlive}
     bind:value={selectedPort}
     onblur={onSelectedPort}
   />
