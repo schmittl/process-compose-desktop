@@ -8,13 +8,13 @@
     role="tab"
     class="tab w-32"
     class:tab-active={$projectTab === 'processes'}
-    on:click={() => ($projectTab = 'processes')}>Processes</a
+    onclick={() => ($projectTab = 'processes')}>Processes</a
   >
   <a
     href={'#'}
     role="tab"
     class="tab w-32"
     class:tab-active={$projectTab === 'configuration'}
-    on:click={() => ($projectTab = 'configuration')}>Configuration</a
+    onclick={() => ($projectTab = 'configuration')}>Configuration</a
   >
 </div>

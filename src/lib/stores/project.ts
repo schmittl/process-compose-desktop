@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { allProcesses, selectedProcess } from './process';
+import { processStore } from './process.svelte';
 import { load as loadStore, type Store } from '@tauri-apps/plugin-store';
 import { browser } from '$app/environment';
 
@@ -14,8 +14,7 @@ export const allProjectConfigurations = writable<ProjectConfiguration[]>([]);
 export function resetProject() {
   projectState.set(undefined);
   projectAlive.set(false);
-  selectedProcess.set(undefined);
-  allProcesses.set([]);
+  processStore.reset();
 }
 
 export let rootStore: Store;

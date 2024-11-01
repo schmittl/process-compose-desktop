@@ -1,17 +1,17 @@
 <script lang="ts">
   import { ProcessComposeService } from './process-compose.service';
   import { Command } from '@tauri-apps/plugin-shell';
-  import { projectAlive, projectConfiguration } from './stores/project';
+  import { projectAlive, projectConfiguration as projectConfigurationStore } from './stores/project';
   import { createEventDispatcher, getContext } from 'svelte';
   import { basename } from '@tauri-apps/api/path';
-  import type { Writable } from 'svelte/store';
+  import { get, type Writable } from 'svelte/store';
   import ProjectTabs from './project-tabs.svelte';
 
   const dispatch = createEventDispatcher();
   const processComposeService = getContext<Writable<ProcessComposeService>>('processComposeService');
 
   async function onStartProject(): Promise<void> {
-    const projectConfiguration = $projectConfiguration;
+    const projectConfiguration = get(projectConfigurationStore);
 
     if (!projectConfiguration) {
       return;
@@ -38,7 +38,7 @@
 <div class="flex items-center">
   <div class="flex-1 flex justify-start">
     <h2>
-      Project {$projectConfiguration?.name}
+      Project {$projectConfigurationStore?.name}
     </h2>
   </div>
   <div class="flex-1 flex justify-center"><ProjectTabs></ProjectTabs></div>

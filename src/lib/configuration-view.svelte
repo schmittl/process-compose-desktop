@@ -2,12 +2,14 @@
   import { goto } from '$app/navigation';
   import { projectAlive, projectConfiguration, rootStore } from './stores/project';
 
-  let selectedPort: string | undefined;
-  let invalidPort = false;
+  let selectedPort: string | undefined = $state();
+  let invalidPort = $state(false);
 
-  $: if (selectedPort == null && $projectConfiguration) {
-    selectedPort = $projectConfiguration.port.toString();
-  }
+  $effect(() => {
+    if (selectedPort == null && $projectConfiguration) {
+      selectedPort = $projectConfiguration.port.toString();
+    }
+  });
 
   async function onSelectedPort(): Promise<void> {
     if (!isPortValid(selectedPort)) {
@@ -67,8 +69,8 @@
     class:input-error={invalidPort}
     disabled={$projectAlive}
     bind:value={selectedPort}
-    on:blur={onSelectedPort}
+    onblur={onSelectedPort}
   />
   <div class="divider col-span-2">Danger zone</div>
-  <button class="font-semibold btn btn-sm btn-outline col-span-2" on:click={deleteProject}>Delete Project</button>
+  <button class="font-semibold btn btn-sm btn-outline col-span-2" onclick={deleteProject}>Delete Project</button>
 </div>

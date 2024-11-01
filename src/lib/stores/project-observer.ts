@@ -1,5 +1,5 @@
 import type { ProcessComposeService } from '$lib/process-compose.service';
-import { allProcesses } from './process';
+import { processStore } from './process.svelte';
 import { projectAlive, projectState } from './project';
 
 export class ProjectObserver {
@@ -38,7 +38,7 @@ export class ProjectObserver {
         this.throwIfAborted(() => projectState.set(state));
 
         const processes = await this.processComposeService.loadProcesses(this.abortSignal);
-        this.throwIfAborted(() => allProcesses.set(processes));
+        this.throwIfAborted(() => (processStore.allProcesses = processes));
       }
     } catch (e) {
       console.warn('Failed to update project state', e);

@@ -1,13 +1,21 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import ProjectView from '$lib/project-view.svelte';
   import { projectConfiguration } from '$lib/stores/project';
   import type { PageData } from './$types';
 
-  export let data: PageData;
-
-  $: if (data.projectConfiguration) {
-    $projectConfiguration = data.projectConfiguration;
+  interface Props {
+    data: PageData;
   }
+
+  let { data }: Props = $props();
+
+  run(() => {
+    if (data.projectConfiguration) {
+      $projectConfiguration = data.projectConfiguration;
+    }
+  });
 </script>
 
 {#if $projectConfiguration}

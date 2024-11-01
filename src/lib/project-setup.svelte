@@ -1,20 +1,26 @@
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
   import { open } from '@tauri-apps/plugin-dialog';
   import { rootStore, type ProjectConfiguration } from './stores/project';
   import { goto } from '$app/navigation';
 
-  let selectedFilePath: string | undefined;
-  let selectedProjectName: string | undefined;
-  let invalidProjectName = false;
-  let invalidFilePath = false;
+  let selectedFilePath: string | undefined = $state();
+  let selectedProjectName: string | undefined = $state();
+  let invalidProjectName = $state(false);
+  let invalidFilePath = $state(false);
 
-  $: if (selectedProjectName) {
-    invalidProjectName = false;
-  }
+  run(() => {
+    if (selectedProjectName) {
+      invalidProjectName = false;
+    }
+  });
 
-  $: if (selectedFilePath) {
-    invalidFilePath = false;
-  }
+  run(() => {
+    if (selectedFilePath) {
+      invalidFilePath = false;
+    }
+  });
 
   async function onOpenProject(): Promise<void> {
     selectedFilePath =
@@ -72,7 +78,7 @@
             <button
               class="btn btn-ghost btn-outline btn-sm ml-4"
               class:btn-error={invalidFilePath}
-              on:click={() => onOpenProject()}>Select</button
+              onclick={() => onOpenProject()}>Select</button
             >
           </div>
         </div>
@@ -81,7 +87,7 @@
             {selectedFilePath}
           </div>
         {/if}
-        <button class="btn btn-primary w-full" on:click={() => onCreateProject()}>Create</button>
+        <button class="btn btn-primary w-full" onclick={() => onCreateProject()}>Create</button>
       </div>
     </div>
   </div>

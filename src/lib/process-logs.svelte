@@ -6,7 +6,7 @@
   import '@xterm/xterm/css/xterm.css';
   import { FitAddon } from '@xterm/addon-fit';
   import { Terminal } from '@xterm/xterm';
-  import { selectedProcess } from './stores/process';
+  import { processStore } from './stores/process.svelte';
   import type { Writable } from 'svelte/store';
 
   const processComposeService = getContext<Writable<ProcessComposeService>>('processComposeService');
@@ -18,10 +18,6 @@
   const terminal = new Terminal({ disableStdin: true });
   const terminalFit = new FitAddon();
   terminal.loadAddon(terminalFit);
-
-  $: if ($selectedProcess) {
-    setupLogs($selectedProcess.name);
-  }
 
   onMount(async () => {
     const terminalElement = document.getElementById('terminal')!;
@@ -75,6 +71,12 @@
   function onResize(): void {
     terminalFit?.fit();
   }
+
+  $effect(() => {
+    if (processStore.selectedProcess) {
+      setupLogs(processStore.selectedProcess.name);
+    }
+  });
 </script>
 
 <div id="terminal" class="h-full"></div>

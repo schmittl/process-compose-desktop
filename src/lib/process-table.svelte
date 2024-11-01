@@ -1,15 +1,19 @@
 <script lang="ts">
+  import { stopPropagation } from 'svelte/legacy';
+
   import { getContext } from 'svelte';
   import { ProcessComposeService } from './process-compose.service';
-  import { allProcesses, selectedProcess } from './stores/process';
+  import { processStore } from './stores/process.svelte';
   import { formatBytes } from './utils/format';
   import type { Writable } from 'svelte/store';
 
   const processComposeService = getContext<Writable<ProcessComposeService>>('processComposeService');
 
-  $: if ($allProcesses.length > 0 && $selectedProcess == null) {
-    $selectedProcess = $allProcesses[0];
-  }
+  $effect(() => {
+    if (processStore.allProcesses.length > 0 && processStore.selectedProcess == null) {
+      processStore.selectedProcess = processStore.allProcesses[0];
+    }
+  });
 
   async function onRestartProcess(processName: string): Promise<void> {
     await $processComposeService.restartProcess(processName);
@@ -34,11 +38,11 @@
     </tr>
   </thead>
   <tbody>
-    {#each $allProcesses as process (process.name)}
+    {#each processStore.allProcesses as process (process.name)}
       <tr
-        on:click={() => selectedProcess.set(process)}
+        onclick={() => (processStore.selectedProcess = process)}
         class="hover"
-        class:bg-base-300={process.name === $selectedProcess?.name}
+        class:bg-base-300={process.name === processStore.selectedProcess?.name}
       >
         <td>{process.pid}</td>
         <td>{process.name}</td>
@@ -50,14 +54,16 @@
         <td>
           <button
             class="btn btn-ghost btn-sm btn-square"
-            on:click|stopPropagation={() => onRestartProcess(process.name)}
+            onclick={stopPropagation(() => onRestartProcess(process.name))}
+            aria-label="Restart Process"
           >
             <span class="iconify mdi--refresh w-6 h-6"></span>
           </button>
           <button
             class:invisible={process.status !== 'Running' && process.status !== 'Launching'}
             class="btn btn-ghost btn-sm btn-square ml-2"
-            on:click|stopPropagation={() => onStopProcess(process.name)}
+            onclick={stopPropagation(() => onStopProcess(process.name))}
+            aria-label="Stop Process"
           >
             <span class="iconify mdi--stop w-6 h-6"></span>
           </button>

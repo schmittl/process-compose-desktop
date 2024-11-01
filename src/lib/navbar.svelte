@@ -2,7 +2,11 @@
   import ProjectMenu from './project-menu.svelte';
   import { type ProjectConfiguration } from './stores/project';
 
-  export let projectConfigurations: ProjectConfiguration[] = [];
+  interface Props {
+    projectConfigurations?: ProjectConfiguration[];
+  }
+
+  let { projectConfigurations = [] }: Props = $props();
 </script>
 
 <div class="navbar bg-base-300 p-0 w-full min-h-12 h-12">

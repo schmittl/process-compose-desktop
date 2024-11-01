@@ -14,15 +14,15 @@
         {/if}</span
       >
       {#if $projectState}
-        {@const projectState = $projectState}
-        <span>Hostname: {projectState.hostName}</span>
-        <span>Processes: {projectState.runningProcessNum}/{projectState.processNum}</span>
+        {@const state = $projectState}
+        <span>Hostname: {state.hostName}</span>
+        <span>Processes: {state.runningProcessNum}/{state.processNum}</span>
       {/if}
     </div>
     <div>
       {#if $projectState}
-        {@const projectState = $projectState}
-        Version: {projectState.version === 'undefined' ? 'dev' : projectState.version}
+        {@const state = $projectState}
+        Version: {state.version === 'undefined' ? 'dev' : state.version}
       {/if}
     </div>
   </div>

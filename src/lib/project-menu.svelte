@@ -2,7 +2,11 @@
   import { type ProjectConfiguration } from './stores/project';
   import { page } from '$app/stores';
 
-  export let projectConfigurations: ProjectConfiguration[] = [];
+  interface Props {
+    projectConfigurations?: ProjectConfiguration[];
+  }
+
+  let { projectConfigurations = [] }: Props = $props();
 </script>
 
 {#each projectConfigurations as project, i (project.name)}
