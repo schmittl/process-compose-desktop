@@ -1,13 +1,11 @@
 <script lang="ts">
   import { stopPropagation } from 'svelte/legacy';
-
   import { getContext } from 'svelte';
   import { ProcessComposeService } from './process-compose.service';
   import { processStore } from './stores/process.svelte';
   import { formatBytes } from './utils/format';
-  import type { Writable } from 'svelte/store';
 
-  const processComposeService = getContext<Writable<ProcessComposeService>>('processComposeService');
+  const processComposeService = getContext<ProcessComposeService>('processComposeService');
 
   $effect(() => {
     if (processStore.allProcesses.length > 0 && processStore.selectedProcess == null) {
@@ -16,11 +14,11 @@
   });
 
   async function onRestartProcess(processName: string): Promise<void> {
-    await $processComposeService.restartProcess(processName);
+    await processComposeService.restartProcess(processName);
   }
 
   async function onStopProcess(processName: string): Promise<void> {
-    await $processComposeService.stopProcess(processName);
+    await processComposeService.stopProcess(processName);
   }
 </script>
 

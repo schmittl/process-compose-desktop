@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { projectStore, projectConfiguration } from './stores/project.svelte';
+  import { projectStore } from './stores/project.svelte';
 </script>
 
-{#if $projectConfiguration}
+{#if projectStore.projectConfiguration}
   <div class="flex justify-between px-1 bg-info text-info-content text-sm space-x-2 z-40">
     <div class="flex flex-wrap gap-x-5 h-full">
       <span>

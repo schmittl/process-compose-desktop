@@ -1,13 +1,13 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
-  import { projectStore, projectConfiguration, rootStore } from './stores/project.svelte';
+  import { projectStore, rootStore } from './stores/project.svelte';
 
   let selectedPort: string | undefined = $state();
   let invalidPort = $state(false);
 
   $effect(() => {
-    if (selectedPort == null && $projectConfiguration) {
-      selectedPort = $projectConfiguration.port.toString();
+    if (selectedPort == null && projectStore.projectConfiguration) {
+      selectedPort = projectStore.projectConfiguration.port.toString();
     }
   });
 
@@ -19,7 +19,7 @@
 
     invalidPort = false;
 
-    const configuration = $projectConfiguration;
+    const configuration = projectStore.projectConfiguration;
 
     if (!configuration) {
       return;
@@ -30,7 +30,7 @@
     await rootStore.set(configuration.name, configuration);
     await rootStore.save();
 
-    $projectConfiguration = configuration;
+    projectStore.projectConfiguration = configuration;
   }
 
   function isPortValid(value: string | undefined): value is string {
@@ -39,7 +39,7 @@
   }
 
   async function deleteProject(): Promise<void> {
-    const configuration = $projectConfiguration;
+    const configuration = projectStore.projectConfiguration;
 
     if (!configuration) {
       return;
@@ -54,11 +54,11 @@
 
 <div class="grid grid-cols-[1fr_2fr] gap-4 m-8 p-4 self-center">
   <div class="divider col-span-2">Project configuration</div>
-  {#if $projectConfiguration}
+  {#if projectStore.projectConfiguration}
     <span class="font-semibold">Project name</span>
-    <span>{$projectConfiguration.name}</span>
+    <span>{projectStore.projectConfiguration.name}</span>
     <span class="font-semibold">Process Compose File</span>
-    <span>{$projectConfiguration.processComposeFilePath}</span>
+    <span>{projectStore.projectConfiguration.processComposeFilePath}</span>
   {/if}
   <label class="font-semibold" for="port">Process Compose Port</label>
   <input

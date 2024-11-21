@@ -1,36 +1,34 @@
-import { writable } from 'svelte/store';
 import { processStore } from './process.svelte';
 import { load as loadStore, type Store } from '@tauri-apps/plugin-store';
 import { browser } from '$app/environment';
 
 export type ProjectTab = 'processes' | 'configuration';
 
-export const projectConfiguration = writable<ProjectConfiguration | undefined>(undefined);
-
 export class ProjectStore {
-  projectState = $state<any>(undefined);
+  projectState = $state<any>();
   projectAlive = $state<boolean>(false);
   projectTab = $state<ProjectTab>('processes');
-  projectConfiguration = $state<ProjectConfiguration | undefined>(undefined);
+  projectConfiguration = $state<ProjectConfiguration>();
   allProjectConfigurations = $state<ProjectConfiguration[]>([]);
 
   reset(): void {
+    this.stop();
+    this.projectConfiguration = undefined;
+  }
+
+  stop(): void {
     this.projectState = undefined;
     this.projectAlive = false;
+    processStore.reset();
   }
 }
 
 export const projectStore = new ProjectStore();
 
-export function resetProject(): void {
-  projectStore.reset();
-  processStore.reset();
-}
-
 export let rootStore: Store;
 
 export async function createRootStore(): Promise<Store> {
-  if (browser) {
+  if (browser && rootStore != null) {
     rootStore = await loadStore('store.projects');
   }
   return rootStore;

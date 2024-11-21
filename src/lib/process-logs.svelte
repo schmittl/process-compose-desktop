@@ -7,9 +7,8 @@
   import { FitAddon } from '@xterm/addon-fit';
   import { Terminal } from '@xterm/xterm';
   import { processStore } from './stores/process.svelte';
-  import type { Writable } from 'svelte/store';
 
-  const processComposeService = getContext<Writable<ProcessComposeService>>('processComposeService');
+  const processComposeService = getContext<ProcessComposeService>('processComposeService');
 
   let websocket: WebSocket | undefined;
 
@@ -48,7 +47,7 @@
   async function setupLogs(processName: string): Promise<void> {
     websocket?.disconnect();
     terminal.reset();
-    const processLogs = await $processComposeService.loadProcessLogs(processName);
+    const processLogs = await processComposeService.loadProcessLogs(processName);
     for (const log of processLogs) {
       terminal.writeln(log);
     }
@@ -56,7 +55,7 @@
   }
 
   async function streamLogs(processName: string): Promise<void> {
-    const ws = await $processComposeService.createProcessLogsWebsocket(processName);
+    const ws = await processComposeService.createProcessLogsWebsocket(processName);
     websocket = ws;
     websocket.addListener((data) => {
       if (data.type === 'Text') {
