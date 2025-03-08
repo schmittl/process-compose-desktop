@@ -28,7 +28,7 @@ export const projectStore = new ProjectStore();
 export let rootStore: Store;
 
 export async function createRootStore(): Promise<Store> {
-  if (browser && rootStore != null) {
+  if (browser && rootStore == null) {
     rootStore = await loadStore('store.projects');
   }
   return rootStore;
