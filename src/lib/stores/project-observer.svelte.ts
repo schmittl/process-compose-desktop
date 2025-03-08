@@ -31,14 +31,15 @@ export class ProjectObserver {
 
     try {
       const alive = await this.processComposeService.isProjectAlive(this.abortSignal);
-      this.throwIfAborted(() => (projectStore.projectAlive = alive));
+      this.abortSignal.throwIfAborted();
+      projectStore.projectAlive = alive;
 
       if (alive) {
         const state = await this.processComposeService.getProjectState(this.abortSignal);
-        this.throwIfAborted(() => (projectStore.projectState = state));
-
         const processes = await this.processComposeService.loadProcesses(this.abortSignal);
-        this.throwIfAborted(() => (processStore.allProcesses = processes));
+        this.abortSignal.throwIfAborted();
+        projectStore.projectState = state;
+        processStore.allProcesses = processes;
       }
     } catch (e) {
       console.warn('Failed to update project state', e);
@@ -47,11 +48,6 @@ export class ProjectObserver {
     if (!this.abortSignal.aborted) {
       this.timeoutId = window.setTimeout(() => this.update(), 1000);
     }
-  }
-
-  private throwIfAborted(operation: Function): void {
-    this.abortSignal.throwIfAborted();
-    operation();
   }
 
   stop(): void {
